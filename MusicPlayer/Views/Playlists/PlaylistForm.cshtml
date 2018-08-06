@@ -1,0 +1,41 @@
+﻿@model MusicPlayer.ViewModels.PlaylistFormViewModel
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Title</h2>
+
+@using (Html.BeginForm("Save", "Playlists"))
+{
+    @Html.ValidationSummary(true, "Please fix the issues before continuing")
+    <div class="form-group">
+        @Html.LabelFor(m => m.Playlist.Name)
+        @Html.TextBoxFor(m => m.Playlist.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Playlist.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Playlist.MembershipTypeId)
+        @Html.DropDownListFor(m => m.Playlist.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "Name"), "Select Membership Type", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Playlist.MembershipTypeId)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Playlist.Birthdate)
+        @Html.TextBoxFor(m => m.Playlist.Birthdate, "{0:d MMM yyyy}", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Playlist.Birthdate)
+    </div>
+    <div class="checkbox">
+        <label> 
+            @Html.CheckBoxFor(m => m.Playlist.isSubscribedToNewsletter) Subscribed to Newsletter?
+        </label>
+    </div>
+
+    @Html.HiddenFor(m => m.Playlist.Id)
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

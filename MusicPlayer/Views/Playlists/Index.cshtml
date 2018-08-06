@@ -1,0 +1,93 @@
+﻿@model IEnumerable<MusicPlayer.Models.Playlist>
+@{
+    ViewBag.Title = "Movies";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Playlists</h2>
+
+@*No Longer able to be used because of the way we are fetching the data now. This can be done using the data table function in jQuery*@
+@*@if (!Model.Any())
+{
+    <p>
+        @Html.ActionLink("New Playlist", "New", "Playlists", null, new { @class = "btn btn-primary" })
+    </p>
+    <p>We don't have any Playlists yet.</p>
+}
+else
+{
+
+}*@
+
+<p>
+    @Html.ActionLink("New Playlist", "New", "Playlists", null, new { @class = "btn btn-primary" })
+</p>
+<table id="Playlists" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Playlist</th>
+            <th>Membership Type</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @*This is how you would render the markup using the server rather than using an API to call the raw data and then render it on the client machine*@
+        @*@foreach (var Playlist in Model)
+            {
+                <tr>
+                    <td>@Html.ActionLink(Playlist.Name, "Edit", "Playlists", new { id = Playlist.Id }, null)</td>
+                    <td>@Playlist.MembershipType.Name</td>
+                    <td>
+                        <button data-Playlist-id="@Playlist.Id" class="btn-link js-delete">Delete</button>
+                    </td>
+                </tr>
+            }*@
+    </tbody>
+</table>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var table = $("#Playlists").DataTable({
+                ajax: {
+                    url: "/api/Playlists",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "name",
+                        render: function (data, type, Playlist) {
+                            return "<a href='/Playlists/edit/" + Playlist.id + "'>" + Playlist.name + "</a>";
+                        }
+                    },
+                    {
+                        data: "membershipType.name"
+                    },
+                    {
+                        data: "id",
+                        render: function (data) {
+                            return "<button class='btn-link js-delete' data-Playlist-id=" + data + ">Delete</button>";
+                        }
+                    }
+                ]
+            });
+
+
+            $("#Playlists").on("click"," .js-delete", function () {
+                var button = $(this);
+                bootbox.confirm("Are you sure you want to delete this Playlist?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/Playlists/" + button.attr("data-Playlist-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        })
+                    }
+                });
+            })
+        });
+    </script>    
+}
