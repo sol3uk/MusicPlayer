@@ -1,0 +1,59 @@
+﻿@model MusicPlayer.ViewModels.NewTrackViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm("Create", "Tracks")) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Track</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+            @Html.LabelFor(model => model.Track.Name)
+                @Html.EditorFor(model => model.Track.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Track.Name, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-10">
+            @Html.LabelFor(model => model.Track.Artist)
+                @Html.DropDownListFor(model => model.Track.Artist.ArtistId, new SelectList(Model.Artists, "ArtistId", "Name"), "Select Artist", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Track.Artist.ArtistId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-10">
+            @Html.LabelFor(model => model.Track.AlbumId)
+                @Html.DropDownListFor(model => model.Track.AlbumId, new SelectList(Model.Albums, "AlbumId", "Name"), "Select Album",  new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Track.AlbumId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-10">
+                @Html.LabelFor(model => model.Track.AudioFileId)
+                @Html.DropDownListFor(model => model.Track.AudioFileId, new SelectList(Model.AudioFiles, "AudioFileId", "Name"), "Select AudioFile", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Track.AudioFileId, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

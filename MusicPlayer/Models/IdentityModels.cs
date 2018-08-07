@@ -29,5 +29,15 @@ namespace MusicPlayer.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<MusicPlayer.Models.Track> Tracks { get; set; }
+
+        public System.Data.Entity.DbSet<MusicPlayer.Models.Album> Albums { get; set; }
+
+        public System.Data.Entity.DbSet<MusicPlayer.Models.Playlist> Playlists { get; set; }
+
+        public System.Data.Entity.DbSet<MusicPlayer.Models.Artist> Artists { get; set; }
+
+        public System.Data.Entity.DbSet<MusicPlayer.Models.AudioFile> AudioFiles { get; set; }
     }
 }

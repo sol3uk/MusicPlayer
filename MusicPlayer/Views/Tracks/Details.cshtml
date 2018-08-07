@@ -1,0 +1,50 @@
+﻿@model MusicPlayer.Models.Track
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Track</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AlbumId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AlbumId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtistId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArtistId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AudioFileId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AudioFileId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
