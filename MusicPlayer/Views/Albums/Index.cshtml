@@ -1,21 +1,21 @@
-﻿@model IEnumerable<MusicPlayer.Models.Album>
+﻿@model IEnumerable<MusicPlayer.ViewModels.AlbumViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Albums";
 }
 
-<h2>Index</h2>
+<h2>Albums</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", "Albums", null, new { @class = "btn btn-primary" })
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Album.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ArtistId)
+            @Html.DisplayNameFor(model => model.Artist.Name)
         </th>
         <th></th>
     </tr>
@@ -23,15 +23,15 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            @Html.DisplayFor(modelItem => item.Album.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ArtistId)
+            @Html.DisplayFor(modelItem => item.Artist.Name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Edit", "Edit", new { id=item.Album.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Album.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Album.Id })
         </td>
     </tr>
 }

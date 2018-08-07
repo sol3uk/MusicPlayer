@@ -1,51 +1,111 @@
-﻿@model IEnumerable<MusicPlayer.Models.Track>
+﻿@model IEnumerable<MusicPlayer.ViewModels.TrackViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "My Library - Tracks";
 }
 
-<h2>Index</h2>
+<h2>My Library - Tracks</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Add New Track", "Create", "Tracks", null, new { @class = "btn btn-primary" })
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AlbumId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ArtistId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AudioFileId)
-        </th>
-        <th></th>
-    </tr>
+@*<table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Track.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Album.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Artist.Name)
+            </th>
+            <th></th>
+        </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AlbumId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ArtistId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AudioFileId)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Track.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Album.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Artist.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Track.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Track.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Track.Id })
+            </td>
+        </tr>
+    }
 
+    </table>*@
+
+<table id="tracks" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Track</th>
+            <th>Artist</th>
+            <th>Album</th>
+            <th>File Name</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
 </table>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var table = $("#tracks").DataTable({
+                ajax: {
+                    url: "/api/TracksApi",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "Name",
+                        render: function (data, type, track) {
+                            return "<a href='/tracks/edit/" + track.Id + "'>" + track.Name + "</a>";
+                        }
+                    },
+                    {
+                        data: "Artist.Name"
+                    },
+                    {
+                        data: "Album.Name"
+                    },
+                    {
+                        data: "AudioFile.Name"
+                    },
+                    {
+                        data: "Id",
+                        render: function (data) {
+                            return "<button class='btn-link js-delete' data-track-id=" + data + ">Delete</button>";
+                        }
+                    }
+                ]
+            });
+
+
+            $("#tracks").on("click", " .js-delete", function () {
+                var button = $(this);
+                bootbox.confirm("Are you sure you want to delete this track?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/TracksApi/" + button.attr("data-track-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        })
+                    }
+                });
+            })
+        });
+    </script>
+}

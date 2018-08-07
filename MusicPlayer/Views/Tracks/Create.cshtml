@@ -1,4 +1,4 @@
-﻿@model MusicPlayer.ViewModels.NewTrackViewModel
+﻿@model MusicPlayer.ViewModels.TrackViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -23,15 +23,19 @@
             </div>
 
             <div class="col-md-10">
-                @Html.LabelFor(model => model.Track.ArtistId)
-                @Html.DropDownListFor(model => model.Track.ArtistId, new SelectList(Model.Artists, "Id", "Name"), "Select Artist", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Track.ArtistId, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="col-md-10">
                 @Html.LabelFor(model => model.Track.AlbumId)
                 @Html.DropDownListFor(model => model.Track.AlbumId, new SelectList(Model.Albums, "Id", "Name"), "Select Album", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Track.AlbumId, "", new { @class = "text-danger" })
+            </div>
+            @*Put in hide/show partials if you have the time
+                    <div style="display: block">
+                    @Html.Partial("Albums/CreatePartial.cshtml");
+                </div>*@
+
+            <div class="col-md-10">
+                @Html.LabelFor(model => model.Track.ArtistId)
+                @Html.DropDownListFor(model => model.Track.ArtistId, new SelectList(Model.Artists, "Id", "Name"), "Select Artist", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Track.ArtistId, "", new { @class = "text-danger" })
             </div>
 
             <div class="col-md-10">

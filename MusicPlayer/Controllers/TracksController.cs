@@ -18,7 +18,19 @@ namespace MusicPlayer.Controllers
         // GET: Tracks
         public ActionResult Index()
         {
-            return View(db.Tracks.ToList());
+            var viewModel = new List<TrackViewModel>();
+            var tempTracks = db.Tracks.ToList();
+            foreach (var track in tempTracks)
+            {
+                viewModel.Add(new TrackViewModel
+                {
+                    Track = track,
+                    Album = db.Albums.Find(track.AlbumId),
+                    Artist = db.Artists.Find(track.ArtistId),
+                    AudioFile = db.AudioFiles.Find(track.AudioFileId)
+                });
+            }
+            return View(viewModel);
         }
 
         // GET: Tracks/Details/5
@@ -43,7 +55,7 @@ namespace MusicPlayer.Controllers
             var albums = db.Albums.ToList();
             var audioFiles = db.AudioFiles.ToList();
 
-            var viewModel = new NewTrackViewModel
+            var viewModel = new TrackViewModel
             {
                 Artists = artists,
                 Albums = albums,
@@ -72,6 +84,7 @@ namespace MusicPlayer.Controllers
         // GET: Tracks/Edit/5
         public ActionResult Edit(int? id)
         {
+            var viewModel = new TrackViewModel();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -81,7 +94,18 @@ namespace MusicPlayer.Controllers
             {
                 return HttpNotFound();
             }
-            return View(track);
+            else
+            {
+                var artists = db.Artists.ToList();
+                var albums = db.Albums.ToList();
+                var audioFiles = db.AudioFiles.ToList();
+
+                viewModel.Track = track;
+                viewModel.Artists = artists;
+                viewModel.Albums = albums;
+                viewModel.AudioFiles = audioFiles;
+            }
+            return View(viewModel);
         }
 
         // POST: Tracks/Edit/5

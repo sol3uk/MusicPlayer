@@ -18,7 +18,17 @@ namespace MusicPlayer.Controllers
         // GET: Albums
         public ActionResult Index()
         {
-            return View(db.Albums.ToList());
+            var viewModel = new List<AlbumViewModel>();
+            var tempAlbums = db.Albums.ToList();
+            foreach (var album in tempAlbums)
+            {
+                viewModel.Add(new AlbumViewModel
+                {
+                    Album = album,
+                    Artist = db.Artists.Find(album.ArtistId)
+                });
+            }
+            return View(viewModel);
         }
 
         // GET: Albums/Details/5
@@ -40,7 +50,7 @@ namespace MusicPlayer.Controllers
         public ActionResult Create()
         {
             var artists = db.Artists.ToList();
-            var viewModel = new NewAlbumViewModel
+            var viewModel = new AlbumViewModel
             {
                 Artists = artists
             };
@@ -72,11 +82,23 @@ namespace MusicPlayer.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Album album = db.Albums.Find(id);
-            if (album == null)
+            var viewModel = new AlbumViewModel
+            {
+                Album = album
+            };
+            if (viewModel.Album == null)
             {
                 return HttpNotFound();
             }
-            return View(album);
+            else
+            {
+                var artists = db.Artists.ToList();
+                viewModel.Album = album;
+                viewModel.Artist = db.Artists.Find(album.ArtistId);
+                viewModel.Artists = artists;
+            }
+
+            return View(viewModel);
         }
 
         // POST: Albums/Edit/5

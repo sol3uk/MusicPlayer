@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<MusicPlayer.Models.AudioFile>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Upload Music";
 }
 
-<h2>Index</h2>
+<h2>Upload Music - Audio Files</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", "AudioFiles", null, new { @class = "btn btn-primary" })
 </p>
 <table class="table">
     <tr>
