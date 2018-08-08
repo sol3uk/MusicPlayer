@@ -32,18 +32,28 @@ namespace MusicPlayer.Controllers
         }
 
         // GET: Albums/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? Id)
         {
-            if (id == null)
+            var viewModel = new AlbumViewModel();
+            if (Id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Album album = db.Albums.Find(id);
+            Album album = db.Albums.Find(Id);
             if (album == null)
             {
                 return HttpNotFound();
             }
-            return View(album);
+            else
+            {
+                viewModel.Album = album;
+            }
+            if (Id != null)
+            {
+                
+                viewModel.Tracks = db.Tracks.Where(x => x.AlbumId == Id);
+            }
+            return View(viewModel);
         }
 
         // GET: Albums/Create
@@ -62,7 +72,7 @@ namespace MusicPlayer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,ArtistId")] Album album)
+        public ActionResult Create(Album album)
         {
             if (ModelState.IsValid)
             {

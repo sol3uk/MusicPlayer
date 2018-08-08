@@ -6,9 +6,7 @@
 
 <h2>My Library - Tracks</h2>
 
-<p>
-    @Html.ActionLink("Add New Track", "Create", "Tracks", null, new { @class = "btn btn-primary" })
-</p>
+
 @*<table class="table">
         <tr>
             <th>
@@ -43,24 +41,33 @@
     }
 
     </table>*@
+<style>
+    #tracks_wrapper{
+        overflow: auto;
+    }
 
-<table id="tracks" class="table table-bordered table-hover">
-    <thead>
-        <tr>
-            <th>Track</th>
-            <th>Artist</th>
-            <th>Album</th>
-            <th>File Name</th>
-            <th>Delete</th>
-        </tr>
-    </thead>
-    <tbody></tbody>
-</table>
+</style>
+<p style="height: 35px;">
+    @Html.ActionLink("Add New Track", "Create", "Tracks", null, new { @class = "btn btn-primary" })
+</p>
+    <table id="tracks" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Track</th>
+                <th>Artist</th>
+                <th>Album</th>
+                <th>File Name</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
 
 @section scripts
 {
     <script>
         $(document).ready(function () {
+
             var table = $("#tracks").DataTable({
                 ajax: {
                     url: "/api/TracksApi",

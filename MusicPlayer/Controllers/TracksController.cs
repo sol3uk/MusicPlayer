@@ -78,7 +78,7 @@ namespace MusicPlayer.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(track);
+            return View();
         }
 
         // GET: Tracks/Edit/5

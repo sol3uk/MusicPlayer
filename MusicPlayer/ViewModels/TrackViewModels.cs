@@ -22,6 +22,7 @@ namespace MusicPlayer.ViewModels
         public Album Album { get; set; }
         public Artist Artist { get; set; }
         public IEnumerable<Artist> Artists { get; set; }
+        public IEnumerable<Track> Tracks { get; set; }
     }
 
     public class PlaylistViewModel

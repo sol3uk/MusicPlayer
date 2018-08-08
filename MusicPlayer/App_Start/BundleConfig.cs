@@ -14,7 +14,8 @@ namespace MusicPlayer
                         "~/Scripts/bootbox.js",
                       "~/Scripts/respond.js",
                       "~/Scripts/datatables/jquery.datatables.js",
-                      "~/Scripts/datatables/datatables.bootstrap.js"));
+                      "~/Scripts/datatables/datatables.bootstrap.js",
+                      "~/Scripts/howler.core.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
