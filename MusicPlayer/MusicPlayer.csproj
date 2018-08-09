@@ -210,6 +210,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AlbumsController.cs" />
+    <Compile Include="Controllers\API\PlaylistTracksController.cs" />
     <Compile Include="Controllers\API\TracksApiController.cs" />
     <Compile Include="Controllers\ArtistsController.cs" />
     <Compile Include="Controllers\AudioFilesController.cs" />
@@ -239,6 +240,14 @@
     <Compile Include="Migrations\201808080933567_UpdateForeignKeys.cs" />
     <Compile Include="Migrations\201808080933567_UpdateForeignKeys.Designer.cs">
       <DependentUpon>201808080933567_UpdateForeignKeys.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808082231232_PlaylistTrack.cs" />
+    <Compile Include="Migrations\201808082231232_PlaylistTrack.Designer.cs">
+      <DependentUpon>201808082231232_PlaylistTrack.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808082234351_PlaylistTrackAttempt2.cs" />
+    <Compile Include="Migrations\201808082234351_PlaylistTrackAttempt2.Designer.cs">
+      <DependentUpon>201808082234351_PlaylistTrackAttempt2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -605,6 +614,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808080933567_UpdateForeignKeys.resx">
       <DependentUpon>201808080933567_UpdateForeignKeys.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808082231232_PlaylistTrack.resx">
+      <DependentUpon>201808082231232_PlaylistTrack.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808082234351_PlaylistTrackAttempt2.resx">
+      <DependentUpon>201808082234351_PlaylistTrackAttempt2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

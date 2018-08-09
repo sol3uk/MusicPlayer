@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MusicPlayer.Models;
+using MusicPlayer.ViewModels;
 
 namespace MusicPlayer.Controllers
 {
@@ -23,6 +24,7 @@ namespace MusicPlayer.Controllers
         // GET: Playlists/Details/5
         public ActionResult Details(int? id)
         {
+            var viewModel = new PlaylistViewModel();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -32,7 +34,19 @@ namespace MusicPlayer.Controllers
             {
                 return HttpNotFound();
             }
-            return View(playlist);
+            else
+            {
+                var tempPlaylistTracks = db.PlaylistTracks.ToList();
+                var tempTracks = db.Tracks.ToList();
+                viewModel.Playlist = playlist;
+                viewModel.Tracks = db.Tracks;
+                viewModel.PlaylistTracks = db.PlaylistTracks;
+                foreach (var playlistTrack in viewModel.PlaylistTracks)
+                {
+                    playlistTrack.Track = tempTracks.Find(x => x.Id == playlistTrack.Id);
+                }
+            }
+            return View(viewModel);
         }
 
         // GET: Playlists/Create
@@ -56,6 +70,19 @@ namespace MusicPlayer.Controllers
             }
 
             return View(playlist);
+        }
+
+        // POST: Playlists/AddTrack/5
+        [HttpPost]
+        public ActionResult AddTrack(PlaylistTrack track)
+        {
+            if (ModelState.IsValid)
+            {
+                db.PlaylistTracks.Add(track);
+                db.SaveChanges();
+            }
+
+            return View();
         }
 
         // GET: Playlists/Edit/5

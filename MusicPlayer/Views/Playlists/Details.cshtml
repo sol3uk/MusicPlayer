@@ -1,4 +1,4 @@
-﻿@model MusicPlayer.Models.Playlist
+﻿@model MusicPlayer.ViewModels.PlaylistViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -11,16 +11,99 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Playlist.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Playlist.Name)
         </dd>
-
     </dl>
+    <hr />
+    <div class="col-md-12">
+        @Html.DropDownListFor(model => model.PlaylistTrack.TrackId, new SelectList(Model.Tracks, "Id", "Name"), "Select Track", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.PlaylistTrack.TrackId, "", new { @class = "text-danger" })
+
+        <a href="javascript:void(0);" onclick="addTrack();">Add To Playlist</a>
+    </div>
+    <hr />
 </div>
+
+<table id="playlistTracks" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Track</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Playlist.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+@section scripts
+{
+    <script>
+        function addTrack() {
+            var newPlaylistTrack = {
+                "Id": null,
+                "PlaylistId": null,
+                "TrackId": null,
+                "Track": null
+            }
+            var trackId = $("#PlaylistTrack_TrackId").val();
+            var playlistId = @Model.Playlist.Id;
+            if (trackId != "" && playlistId != "") {
+                newPlaylistTrack.TrackId = trackId;
+                newPlaylistTrack.PlaylistId = playlistId;
+                console.log(newPlaylistTrack);
+                $.post( "/api/PlaylistTracks", newPlaylistTrack);
+            }
+        };
+
+
+        $(document).ready(function () {
+
+            var table = $("#playlistTracks").DataTable({
+                ajax: {
+                    url: "/api/playlistTracks",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "Track",
+                        render: function (data, type, playlistTrack) {
+                            return playlistTrack.Track.Name;
+                        }
+                    },
+                    {
+                        data: "Id",
+                        render: function (data) {
+                            return "<button class='btn-link js-delete' data-playlistTrack-id=" + data + ">Delete</button>";
+                        }
+                    }
+                ]
+            });
+
+            setInterval( function () {
+                table.ajax.reload();
+            }, 30000 );
+
+            $("#playlistTracks").on("click", " .js-delete", function () {
+                var button = $(this);
+                bootbox.confirm("Are you sure you want to remove the track from this playlist?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/playlistTracks/" + button.attr("data-playlistTrack-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        })
+                    }
+                });
+            })
+        });
+    </script>
+}

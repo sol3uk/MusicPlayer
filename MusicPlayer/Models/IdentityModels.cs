@@ -39,5 +39,7 @@ namespace MusicPlayer.Models
         public System.Data.Entity.DbSet<MusicPlayer.Models.Artist> Artists { get; set; }
 
         public System.Data.Entity.DbSet<MusicPlayer.Models.AudioFile> AudioFiles { get; set; }
+
+        public System.Data.Entity.DbSet<MusicPlayer.Models.PlaylistTrack> PlaylistTracks { get; set; }
     }
 }

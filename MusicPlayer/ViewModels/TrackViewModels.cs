@@ -28,6 +28,8 @@ namespace MusicPlayer.ViewModels
     public class PlaylistViewModel
     {
         public Playlist Playlist { get; set; }
+        public PlaylistTrack PlaylistTrack { get; set; }
         public IEnumerable<Track> Tracks { get; set; }
+        public IEnumerable<PlaylistTrack> PlaylistTracks { get; set; }
     }
 }

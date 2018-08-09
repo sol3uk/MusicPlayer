@@ -18,10 +18,13 @@ namespace MusicPlayer.Models
 
     public class PlaylistTrack
     {
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int PlaylistId { get; set; }
         public int TrackId { get; set; }
+        [NotMapped]
+        public Track Track { get; set; }
     }
 
     public class Track
